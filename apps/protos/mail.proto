@@ -1,0 +1,19 @@
+import "google/protobuf/empty.proto";
+
+syntax = "proto3";
+
+package mail;
+
+service MailService {
+  rpc sendMail (Params) returns (Mail);
+}
+
+message Params {
+  string account = 1;
+}
+
+message Mail {
+  string message = 1;
+  int32 status = 2;
+}
+

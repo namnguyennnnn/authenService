@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-simple
+data:
+  IP_USERS: '0.0.0.0:5000'
+  IP_USERS_AUTH: 'grpc:5000'

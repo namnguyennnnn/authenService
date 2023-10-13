@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "./apps",
+  "compilerOptions": {
+    "assets": [
+      {
+        "webpack": true,
+        "include": "**/*.proto",
+        "outDir": "dist/apps",
+        "watchAssets": true
+      }
+    ]
+  },
+  "monorepo": true,
+  "root": "apps/microservices",
+  "projects": {
+    "microservices": {
+      "type": "application",
+      "root": "apps/microservices",
+      "entryFile": "main",
+      "sourceRoot": "apps/microservices/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/microservices/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src"
+    },
+    "users": {
+      "type": "application",
+      "root": "apps/users",
+      "entryFile": "main",
+      "sourceRoot": "apps/users/src"
+    },
+    "proxy-service": {
+      "type": "application",
+      "root": "apps/proxy-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/proxy-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/proxy-service/tsconfig.app.json"
+      }
+    },
+    "libs": {
+      "type": "library",
+      "root": "libs/libs",
+      "entryFile": "index",
+      "sourceRoot": "libs/libs/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/libs/tsconfig.lib.json"
+      }
+    },
+    "mail": {
+      "type": "application",
+      "root": "apps/mail",
+      "entryFile": "main",
+      "sourceRoot": "apps/mail/src"
+    },
+    "comments": {
+      "type": "application",
+      "root": "apps/comments",
+      "entryFile": "main",
+      "sourceRoot": "apps/comments/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/comments/tsconfig.app.json"
+      }
+    }
+  }
+}

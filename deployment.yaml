@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-auth-deployment
+spec:
+  selector:
+    matchLabels:
+      app: k8s-auth
+  template:
+    metadata:
+      labels:
+        app: k8s-auth
+    spec:
+      hostname: k8s-auth
+      containers:
+      - name: k8s-auth
+        image: ntnguyen01/auth
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3000     
+        envFrom:
+        - configMapRef:
+            name: configmap-simple
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-users-deployment
+spec:
+  selector:
+    matchLabels:
+      app: k8s-users
+  template:
+    metadata:
+      labels:
+        app: k8s-users
+    spec:
+      containers:
+      - name: k8s-users
+        image: ntnguyen01/users            
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 3001
+        envFrom:
+        - configMapRef:
+            name: configmap-simple

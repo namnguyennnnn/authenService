@@ -1,0 +1,69 @@
+syntax = "proto3";
+package user_management;
+
+service UserManager{
+	rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserByEmailResponse);
+	rpc AddUser (AddUserRequest) returns (AddUserResponse);
+    rpc VerifyAccount(VerifyAccountRequest) returns (VerifyAccountResponse);
+    rpc GetTotalComments (GetTotalCommentsRequest) returns (GetTotalCommentsResponse);
+}
+message ExerciseModelGrpc
+{
+	 string exercise_id = 1;
+     string category_detail_id = 2;
+     string title_of_exercise = 3;
+     string exercise_description = 4;
+     string create_at = 5;      
+}
+
+message GetUserByEmailRequest{
+	string account = 1; 
+}
+message GetUserByEmailResponse{
+	string uid = 1; 
+    string user_name = 2;
+    string password = 3;
+    string account = 4;
+    string avatar = 5;
+    bool is_verified = 6;
+}
+message AddUserRequest{
+ 
+    string user_name = 1;
+    string password = 2;
+    string account = 3;
+    string avatar = 4;
+    bool is_verified = 5;
+}
+
+message AddUserResponse{
+    string StatusCode = 1;
+    string StausDetail = 2;
+}
+
+message VerifyAccountRequest{
+    string account = 1;
+}
+message VerifyAccountResponse{
+    string StatusCode = 1;
+    string StausDetail = 2;
+}
+
+
+message TotalComment{
+	string exercise_id = 1;
+    string category_detail_id = 2;
+    string title_of_exercise = 3;
+    string exercise_description = 4;
+    string create_at = 5;
+	int32 total_replies = 6;
+}
+
+
+message GetTotalCommentsRequest{
+	repeated ExerciseModelGrpc exercises = 1;
+}
+
+message GetTotalCommentsResponse{
+	repeated TotalComment exercises = 1;
+}
