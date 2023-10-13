@@ -19,10 +19,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
       global: true,
     }),
     SharedModule.registerGRPC(
-      'user',
-      join(__dirname, '../../protos/users.proto'),
-      '0.0.0.0:5000',
-      'USERS',
+      'user_management',
+      join(__dirname, '../../protos/user.proto'),
+      `0.0.0.0:5282`,
+      "USERS",
     ),
     MailerModule.forRoot({
       transport: {
@@ -41,3 +41,5 @@ import { MailerModule } from '@nestjs-modules/mailer';
   providers: [AuthService],
 })
 export class AuthModule {}
+
+

@@ -20,20 +20,20 @@ message GetUserByEmailRequest{
 	string account = 1; 
 }
 message GetUserByEmailResponse{
-	string uid = 1; 
-    string user_name = 2;
-    string password = 3;
-    string account = 4;
-    string avatar = 5;
-    bool is_verified = 6;
+	string Uid = 1; 
+    string UserName = 2;
+    string Password = 3;
+    string Account = 4;
+    string Avatar = 5;
+    bool IsVerified = 6;
 }
 message AddUserRequest{
  
-    string user_name = 1;
-    string password = 2;
-    string account = 3;
-    string avatar = 4;
-    bool is_verified = 5;
+    string UserName = 1;
+    string Password = 2;
+    string Account = 3;
+    string Avatar = 4;
+    bool IsVerified = 5;
 }
 
 message AddUserResponse{
@@ -42,7 +42,7 @@ message AddUserResponse{
 }
 
 message VerifyAccountRequest{
-    string account = 1;
+    string account = 1; 
 }
 message VerifyAccountResponse{
     string StatusCode = 1;

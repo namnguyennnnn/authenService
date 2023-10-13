@@ -1,6 +1,7 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { ServerCredentials,ChannelCredentials } from '@grpc/grpc-js'
 
 @Module({
   imports: [],
@@ -24,7 +25,9 @@ export class SharedModule {
               package: pkg,
               protoPath,
               url,
+              // credentials:ChannelCredentials.createSsl()
             },
+
           });
         },
         inject: [ConfigService],

@@ -37,7 +37,6 @@ export class AuthController implements OnModuleInit {
   constructor(
     private authService: AuthService,
     @Inject('USERS') private usersClient: ClientGrpc,
-    @Inject('MAIL_SERVICE') private mailClient: ClientGrpc,
     private jwtService: JwtService,
   ) {}
 
@@ -79,29 +78,21 @@ export class AuthController implements OnModuleInit {
     @Body() { account, password }: LoginAuthDto,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<CookiesReturnType> {
+  ) {
+    // : Promise<CookiesReturnType>
+ 
     const users = await lastValueFrom(
-      await this.usersService.GetUserByEmail({ account }),
+      await this.usersService.GetUserByEmail({ account}),
     );
-    // const users: (UsersDto & { password: string })[] = [
-    //   {
-    //     account: 'nguyen@gmail.com',
-    //     avatar: 'avar',
-    //     date_of_birth: 'date',
-    //     background: 'bg',
-    //     is_verified: true,
-    //     join_at: 'join',
-    //     uid: 'UID',
-    //     user_name: 'Nguyen',
-    //     password: await Hashing.hash('12345678'),
-    //   },
-    // ];
-    if (!users.account) {
+
+
+    
+    if (!users?.Account) {
       throw new NotFoundException(undefined, 'user not found');
     }
-    // const user = users[0];
-
-    const isMatch = await Hashing.compare(password, users.password);
+    // // const user = users[0];
+    // await Hashing.compare(password, users.password)
+    const isMatch =   await Hashing.compare(password, users.Password)
 
     if (!isMatch) {
       throw new UnauthorizedException();
@@ -110,6 +101,7 @@ export class AuthController implements OnModuleInit {
     const payload = { uid: users.uid };
     const tokens = await this.GenerateTokens(payload);
     return {
+      users,
       access_token: {
         expire: 7200000,
         value: tokens.access_token,
@@ -178,14 +170,20 @@ export class AuthController implements OnModuleInit {
         account: registerAuthDto.account,
       });
 
-      this.usersService.AddUser({
-        account: registerAuthDto.account,
-        avatar: 'a',
-        is_verified: false,
-        password: await Hashing.hash(registerAuthDto.password),
-        user_name: registerAuthDto.user_name,
-      });
-      return;
+      try{
+     
+        return this.usersService.AddUser({
+          UserName: registerAuthDto.user_name,
+          Account: registerAuthDto.account,
+          Avatar: 'a',
+          IsVerified: true,
+          Password: await Hashing.hash(registerAuthDto.password),
+        });
+        
+      }catch(e ){
+        console.log(e)
+        throw new HttpException("",status);
+      }
     }
     throw new HttpException(message, status);
   }
@@ -211,9 +209,14 @@ export class AuthController implements OnModuleInit {
       const info = this.jwtService.verify(token, {
         secret: process.env.JWT_SECRET,
       });
-      console.log(info);
-      await this.usersService.VerifyAccountRequest(info.account);
-      return { statusCode: HttpStatus.OK };
+      try{
+        console.log("call")
+          return this.usersService.VerifyAccount({account: info.account})
+        // return { statusCode: HttpStatus.OK };
+      }catch(e){
+        console.log(e)
+        throw new HttpException("Service User",HttpStatus.BAD_REQUEST)
+      }
     } catch (e) {
       throw new HttpException('TokenExpiredError', HttpStatus.BAD_REQUEST);
     }

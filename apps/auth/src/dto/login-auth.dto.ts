@@ -4,6 +4,5 @@ export class LoginAuthDto {
   @IsEmail()
   account: string;
   @IsNotEmpty()
-  @IsByteLength(8)
   password: string;
 }
