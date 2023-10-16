@@ -14,7 +14,7 @@ import {
 import { Inject, Param, Query, Req, Res } from '@nestjs/common/decorators';
 import { OnModuleInit } from '@nestjs/common/interfaces';
 import { JwtService } from '@nestjs/jwt';
-import { ClientGrpc } from '@nestjs/microservices';
+import { ClientGrpc, GrpcMethod } from '@nestjs/microservices';
 import { Request, Response } from 'express';
 import { createReadStream } from 'fs';
 import { join } from 'path';
@@ -69,6 +69,17 @@ export class AuthController implements OnModuleInit {
     }
 
     return this.jwtService.verifyAsync(token, { secret });
+  }
+
+  @GrpcMethod('UserManager', 'GetUserByEmail')
+  GetUserByEmail(data: {account:string}){
+    return { "Uid" : "1", 
+       "UserName" : "2",
+       "Password" : "3",
+       "Account" : "4",
+       "Avatar" : "5",
+       "IsVerified" : true}
+
   }
 
   @UseInterceptors(ErrorsInterceptor)
@@ -176,7 +187,7 @@ export class AuthController implements OnModuleInit {
           UserName: registerAuthDto.user_name,
           Account: registerAuthDto.account,
           Avatar: 'a',
-          IsVerified: true,
+          IsVerified: false,
           Password: await Hashing.hash(registerAuthDto.password),
         });
         
@@ -187,6 +198,8 @@ export class AuthController implements OnModuleInit {
     }
     throw new HttpException(message, status);
   }
+
+
 
   @UseInterceptors(SetCookiesInterceptor)
   @Get('/logout')
@@ -262,4 +275,5 @@ export class AuthController implements OnModuleInit {
     // });
     // console.log("change isActived account ")
   }
+  
 }

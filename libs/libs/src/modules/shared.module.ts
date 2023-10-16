@@ -24,8 +24,8 @@ export class SharedModule {
             options: {
               package: pkg,
               protoPath,
-              url,
-              // credentials:ChannelCredentials.createSsl()
+              url
+              
             },
 
           });

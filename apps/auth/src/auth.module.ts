@@ -21,7 +21,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SharedModule.registerGRPC(
       'user_management',
       join(__dirname, '../../protos/user.proto'),
-      `0.0.0.0:5282`,
+      `0.0.0.0:5198`,
       "USERS",
     ),
     MailerModule.forRoot({
