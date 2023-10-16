@@ -6,6 +6,8 @@ service UserManager{
 	rpc AddUser (AddUserRequest) returns (AddUserResponse);
     rpc VerifyAccount(VerifyAccountRequest) returns (VerifyAccountResponse);
     rpc GetTotalComments (GetTotalCommentsRequest) returns (GetTotalCommentsResponse);
+    rpc UpdatePassword(UpdatePasswordRequest) returns (UpdatePasswordResponse);
+
 }
 message ExerciseModelGrpc
 {
@@ -66,4 +68,14 @@ message GetTotalCommentsRequest{
 
 message GetTotalCommentsResponse{
 	repeated TotalComment exercises = 1;
+}
+
+message UpdatePasswordRequest{
+    string Account = 1; 
+    string Password = 2;
+}
+
+message UpdatePasswordResponse{
+    string StatusCode = 1;
+    string StausDetail = 2;
 }
